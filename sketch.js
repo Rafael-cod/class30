@@ -1,26 +1,32 @@
+//make the physics constamt
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
+//give variables to objects
 var engine, world;
 var box1, pig1;
 var backgroundImg,platform;
 var bird, slingShot;
 
 function preload() {
+    //load background image
     backgroundImg = loadImage("sprites/bg.png");
 }
 
 function setup(){
+    //createa canvas
     var canvas = createCanvas(1200,400);
+    //create engine
     engine = Engine.create();
     world = engine.world;
 
-
+    //create the grounds
     ground = new Ground(600,height,1200,20);
     platform = new Ground(150, 305, 300, 170);
 
+    //create the objects
     box1 = new Box(700,320,70,70);
     box2 = new Box(920,320,70,70);
     pig1 = new Pig(810, 350);
@@ -43,9 +49,14 @@ function setup(){
 }
 
 function draw(){
+    //draw the background
     background(backgroundImg);
+
+    //update the engine
     Engine.update(engine);
     //strokeWeight(4);
+
+    //display the objects
     box1.display();
     box2.display();
     ground.display();
@@ -71,7 +82,13 @@ function mouseDragged(){
     Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
 }
 
-
 function mouseReleased(){
     slingshot.fly();
+}
+
+function keyPressed(){
+    if(keyCode === 32){
+        //attach the bird back to the slingshot
+        slingshot.attach(bird.body);
+    }
 }
